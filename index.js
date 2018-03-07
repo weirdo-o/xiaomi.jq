@@ -63,10 +63,10 @@ $(function () {
 
 // 头部的购物车隐藏
     $(".toubu-yc").mouseenter(function () {
-        $(".toubu-yincang").delay(200).slideDown(200)
+        $(".toubu-yincang").stop(true).slideDown(200)
     })
     $(".toubu-yc").mouseleave(function () {
-        $(".toubu-yincang").delay(200).slideUp(100)
+        $(".toubu-yincang").stop(true).slideUp(100)
     })
 
 // 导航
@@ -127,6 +127,33 @@ $(function () {
     })
 
 // 为你推荐
+    function tuijian(a) {
+        let box=$(a);
+        let lis=$('.wntj-dibu',box);
+        let now=0,next=0;
+        let width=box.width();
+        $('.jtlwnt',box).click(function () {
+            next=now+1;
+            if(next>=lis.length){
+                next=0;
+            }
+            lis.eq(next).css({'left':'100%'});
+            lis.eq(now).animate({left:-width},'fast');
+            lis.eq(next).animate({left:0},'fast');
+            now=next;
+        });
+        $('.jtrwnt',box).click(function () {
+            next=now-1;
+            if(next<0){
+                next=lis.length-1;
+            }
+            lis.eq(next).css({'left':'-100%'});
+            lis.eq(now).animate({left:width},'fast');
+            lis.eq(next).animate({left:0},'fast');
+            now=next;
+        });
+    }
+    tuijian('.wntj');
 
 
 
@@ -134,88 +161,59 @@ $(function () {
 
 
 
-// 双下标轮播
-//     function box1(box) {
-//         let now = 0;
-//         let next = 0;
-//         let pic1 = $('.nrul li')
-//         let right1 = $('.right')
-//         let left1 = $('.left')
-//         let cirs1 = $('.yuandian li')
-//         let width =$(box).width
-//         let flag = true
-//
-//         right1.eq(now).click (function () {
-//             next = now + 1
-//             if(next>=pic1.length){
-//                 return
-//             }
-//             if (!flag) {
-//                 return
-//             }
-//             flag = false
-//             pic1.eq(now).animate({left: -width}, 400)
-//             pic1.eq(next).animate({left: 0}, 400, function () {
-//                 flag = true
-//             })
-//             cirs1.eq(now).removeClass('active')end().eq(next).addClass('active')
-//             now = next
-//         })
-//         left1.click (function () {
-//             next = now - 1
-//             if(next<0){
-//                 return
-//             }
-//             if (!flag) {
-//                 return
-//             }
-//             flag = false
-//
-//             pic1.eq(now).animate({left: width}, 400)
-//             pic1.eq(next).animate({left: 0}, 400, function () {
-//                 flag = true
-//             })
-//            cirs1.eq(now).removeClass('active')end().eq(next).addClass('active')
-//             now = next
-//         })
-//         // cirs1.forEach(function (val, index) {
-//         //     val.onclick = function () {
-//         //         if (!flag) {
-//         //             return
-//         //         }
-//         //         flag = false
-//         //         next = index
-//         //         if (next > now) {
-//         //             pic1[next].style.left = '100%'
-//         //             animate(pic1[now], {left: -width}, 400)
-//         //             animate(pic1[next], {left: 0}, 400, function () {
-//         //                 flag = true
-//         //             })
-//         //             cirs1[now].classList.remove('active')
-//         //             cirs1[next].classList.add('active')
-//         //             now = next
-//         //         } else if (next < now) {
-//         //             pic1[next].style.left = '-100%'
-//         //             animate(pic1[now], {left: width}, 400)
-//         //             animate(pic1[next], {left: 0}, 400, function () {
-//         //                 flag = true
-//         //             })
-//         //             cirs1[now].classList.remove('active')
-//         //             cirs1[next].classList.add('active')
-//         //             now = next
-//         //         } else {
-//         //             flag = true
-//         //         }
-//         //     }
-//         // })
-//     }
-//
-//     let box2 = document.querySelectorAll('.nrbox')
-//     box2.forEach(function (val) {
-//         box1(val)
-//     })
 
+    function lunbo(a) {
+        let box=$(a);
+        let lis=$('.nrul li',box);
+        let circles=$('.yuandian li',box);
+        let width=box.width();
+        let now=0,next=0;
 
+        $('.right',box).click(function () {
+            next=now+1;
+            if(next>=lis.length){
+                return;
+            }
+            lis.eq(now).animate({left:-width},'fast');
+            lis.eq(next).animate({left:0},'fast');
+            circles.eq(now).removeClass('active').end().eq(next).addClass('active');
+            now=next;
+        });
+        $('.left',box).click(function () {
+            next=now-1;
+            if(next<0){
+                return;
+            }
+            lis.eq(now).animate({left:width},'fast');
+            lis.eq(next).animate({left:0},'fast');
+            circles.eq(now).removeClass('active').end().eq(next).addClass('active');
+            now=next;
+        });
+        circles.each(function (index) {
+            $(this).click(function () {
+                if(index>now){
+                    next=index;
+                    lis.eq(next).css({'left':'100%'});
+                    lis.eq(now).animate({left:-width},'fast');
+                    lis.eq(next).animate({left:0},'fast');
+                    circles.eq(now).removeClass('active').end().eq(next).addClass('active');
+                    now=next;
+                }
+                else if(index<now){
+                    next=index;
+                    lis.eq(next).css({'left':'-100%'});
+                    lis.eq(now).animate({left:width},'fast');
+                    lis.eq(next).animate({left:0},'fast');
+                    circles.eq(now).removeClass('active').end().eq(next).addClass('active');
+                    now=next;
+                }
+            })
+        })
+    }
+    lunbo('#List1');
+    lunbo('#List2');
+    lunbo('#List3');
+    lunbo('#List4');
 
 
 
