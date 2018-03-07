@@ -865,9 +865,9 @@
 .wn-big{
 	width: 100%;
 	height: 300px;
-	position: absolute;
+/* 	position: absolute;
 	top:60px;
-	left:0;
+	left:0; */
 	display: flex;
 }
 .wntj-dibu{
@@ -877,6 +877,9 @@
 	display: flex;
 	justify-content: space-between;
 	transition: margin-left 0.5s;
+	position: absolute;
+	top:60px;
+	left:0;
 	/* background: black; */
 }
 .wntj-dibu-list{
